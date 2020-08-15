@@ -67,7 +67,7 @@ describe("shared utility functionality", () => {
   describe("FourCC token", () => {
 
     const testData: { fourCC: string, valid: boolean }[] = [
-      {fourCC: '\x00\x00\x00\x00', valid: false},
+      {fourCC: '\x00\x00\x00\x00', valid: true},
       {fourCC: 'WAVE', valid: true},
       {fourCC: 'fmt ', valid: true},
       {fourCC: 'fmt\x00', valid: true},
@@ -89,7 +89,7 @@ describe("shared utility functionality", () => {
         } catch (e) {
           valid = false;
         }
-        t.strictEqual(valid, data.valid, `FourCC: ${util.a2hex(data.fourCC)}`);
+        t.strictEqual(valid, data.valid, `FourCC: ${util.a2hex(data.fourCC)} "${data.fourCC}"`);
         if (data.valid) {
           t.strictEqual(fourCC, data.fourCC);
         }
