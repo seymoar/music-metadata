@@ -7,18 +7,40 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            lib/**.js
+            lib/**.d.ts
+            lib/**.js.map
+
+  test:
+
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn run lint
+
       - run:  yarn run test
         env:
           CI: true
