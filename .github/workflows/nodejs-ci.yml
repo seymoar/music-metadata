@@ -66,7 +66,7 @@ jobs:
           name: build
 
       - name: Test with Node.js ${{ matrix.node-version }}
-        run: yarn run test-coverage
+        run: yarn run test
 
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@master
